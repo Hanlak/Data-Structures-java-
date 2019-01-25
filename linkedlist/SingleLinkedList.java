@@ -1,5 +1,7 @@
 package linkedlist;
 
+import linkedlist.LinkedList.Node;
+
 /*
  * In Java  Linked List is represented as a class and
  * Node as a seperate class.
@@ -7,73 +9,134 @@ package linkedlist;
  */
 
 public class SingleLinkedList {
-	Node head;	//head of list
-	static class Node{
+	public static Node head;	//head of list
+	public static int numNodes=1;//for size
+	public SingleLinkedList(Object data) {
+		head = new Node(data);
+	}
+	public SingleLinkedList() {
+		//defualt
+	}
+	class Node{
 	//linked list node
-		int data;
+		Object data;
 		Node next;
 	/*
 	 * Constructor to create data and
 	 * By Defulat Node will assign with null value
 	 */
-		Node(int data) {
+		Node(Object data) {
 			this.data = data;
+		}
+		public Object getData() {
+			return data;
 		}
 		
 	}
 	
 	//Method to insert data into linked list
-	public static SingleLinkedList insert(SingleLinkedList list, int data) {
+	public void insert(Object data) {
 		//Create a new Node with Given data
 		 
 		Node new_node = new Node(data);
 		new_node.next= null;
 		//check if head is null and assign the new node if it is true. 
-		if(list.head == null) {
-			list.head = new_node; 
+		if(head == null) {
+			head = new_node;
+			numNodes++;
 		}
 		else {
 			//else we need to traverse through the list upto last node 
 			// insert the data at the last node.
-			Node last = list.head; // starting from the head
+			Node last = head; // starting from the head
 			while(last.next != null) {
 				//traversing through the list
 				last = last.next;
 			}
 			//asigning the value at the last node.
 			last.next= new_node;
-		}
-		return list;	
+			numNodes++;
+		}	
 	}
+	//adds at head
+		public void addAtHead(Object data) {
+			Node temp = head;
+			head = new Node(data);
+			head.next=temp;
+			numNodes++;
+		}
+		//adds at tail
+		public void addAtTail(Object data) {
+			Node temp = head;
+			while(temp.next!=null) {
+				temp=temp.next;
+			}
+			temp.next = new Node(data);
+			numNodes++;
+		}
+		
+		//add at Index
+		public void addAtIndex(int index, Object data) {
+			Node temp = head;
+			Node holder;
+			for(int i=0;i<index-1&&temp.next!=null;i++) {
+				temp=temp.next;
+			}
+			holder = temp.next;
+			temp.next =new Node(data);
+			temp.next.next=holder;
+			numNodes++;
+		}
+		//delete at Index
+		public void deleteAtIndex(int index) {
+			Node temp=head;
+			for(int i=0;i<index-1&&temp.next!=null;i++) {
+				temp=temp.next;
+			}
+			temp.next = temp.next.next;
+			numNodes--;
+		}
+		
+		//find using index
+		
+		public static Node find(int index) {
+			Node temp = head;
+			for(int i=0;i<index-1&&temp.next!=null;i++) {
+				temp = temp.next;
+			}
+			return temp;
+		}
 	
 	//Method to print Linked list
-	public static void printList(SingleLinkedList list) {
+	public static void printList() {
 		//traverse through the list
-		Node curr_node = list.head;
-		System.out.println("Linked list");
-		while(curr_node != null) {
-			System.out.print(curr_node.data+" ");
-			curr_node = curr_node.next;
+		Node temp = head;
+		while(temp!=null) {
+			System.out.print(" "+temp.data);
+			temp=temp.next;
 		}
 		
 	}
 	public static void main(String[] args) 
     { 
         /* Start with the empty list. */
-        SingleLinkedList list = new SingleLinkedList(); 
+        SingleLinkedList list = new SingleLinkedList(1); 
         // ******INSERTION****** 
         // Insert the values 
-        list = insert(list, 1); 
-        list = insert(list, 2); 
-        list = insert(list, 3); 
-        list = insert(list, 4); 
-        list = insert(list, 5); 
-        list = insert(list, 6); 
-        list = insert(list, 7); 
-        list = insert(list, 8); 
+        list.insert(10);
+        list.addAtHead(20);
+        list.addAtTail(22);
+		list.addAtHead(30);
+		list.addAtTail(39);
+		list.addAtTail(05);
+		list.addAtIndex(2, 25);
+		list.deleteAtIndex(0);
+		System.out.println(find(3).getData());
+		System.out.println("Size:"+numNodes);
+		
   
         // Print the LinkedList 
-        printList(list); 
+        printList(); 
     }
 }
 
