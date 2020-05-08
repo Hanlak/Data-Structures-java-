@@ -6,7 +6,7 @@
  */
 
 public class SingleLinkedList {
-    public static Node head;	//head of list
+    public static Node head;	//head of linked list
     public static int numNodes=1;//for size
     public SingleLinkedList(Object data) {
         head = new Node(data);
